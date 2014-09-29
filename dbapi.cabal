@@ -29,6 +29,7 @@ executable dbapi
                      , Ranged-sets
                      , transformers
                      , bcrypt
+                     , oauth-provider
   Other-Modules:       Dbapi
                      , PgStructure
                      , PgQuery
@@ -59,3 +60,4 @@ Test-Suite spec
                      , Ranged-sets
                      , transformers
                      , bcrypt
+                     , oauth-provider

@@ -9,6 +9,9 @@ brew install postgres
 createuser -d postgres
 psql template1 -c "ALTER ROLE postgres WITH SUPERUSER;"
 createdb dbapi_test -O postgres
+
+git submodule update --init
+cabal sandbox add-source oauth-provider
 cabal install -j --enable-tests --reorder-goals
 ```
 

@@ -1,0 +1,4 @@
+[submodule "oauth-provider"]
+	path = oauth-provider
+	url = git@github.com:gseitz/oauth-provider.git
+	branch = master
