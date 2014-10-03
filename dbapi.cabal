@@ -69,3 +69,4 @@ Test-Suite spec
                      , base64-string
                      , split
                      , network-uri >= 2.6
+                     , hlint

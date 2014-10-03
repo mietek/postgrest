@@ -1,25 +1,31 @@
 language: haskell
 ghc: 7.8
 addons:
-  postgresql: "9.3"
+  postgresql: '9.3'
 notifications:
   slack: looprecur:z2nPS2Cfx2D33LE2obyU2FyQ
 before_install:
-  - createuser --superuser --no-password dbapi_test
-  - createdb -O dbapi_test -U postgres dbapi_test
-  - travis_retry sudo add-apt-repository -y ppa:hvr/ghc
-  - travis_retry sudo apt-get update
-  - travis_retry sudo apt-get install --force-yes happy-1.19.3 alex-3.1.3
-  - export PATH=/opt/alex/3.1.3/bin:/opt/happy/1.19.3/bin:$PATH
-install:
-  - curl http://bin.begriffs.com/dbapi/cabal-sandbox.tar.xz | tar xJ
-  - chmod a+x .cabal-sandbox/bin/*
-  - cabal sandbox init
-  - cabal install --enable-test --dependencies-only
-  - cabal install --enable-test
+- createuser --superuser --no-password dbapi_test
+- createdb -O dbapi_test -U postgres dbapi_test
+- travis_retry sudo add-apt-repository -y ppa:hvr/ghc
+- travis_retry sudo apt-get update
+- travis_retry sudo apt-get install --force-yes happy-1.19.3 alex-3.1.3
+- export PATH=/opt/alex/3.1.3/bin:/opt/happy/1.19.3/bin:$PATH
+before_script:
+- cabal configure --enable-tests
+- cabal build
 script:
-  - cabal test --show-details=always --test-options="--color"
-  - .cabal-sandbox/bin/hlint src/*.hs test/**/*.hs
-cache:
-  directories:
-    - .cabal-sandbox
+- cabal test --show-details=always --test-options="--color"
+deploy:
+  provider: s3
+  access_key_id: AKIAIYJJY5B5UWSU3CFQ
+  secret_access_key:
+    secure: DDffOBLuodY/06wPsXOWp/RZevcqe7HVpaGS4NjoPfKEbl46G1Bvz74NlA9YmfdyQytMgBkiK33maxX7EYLizRMkPT3E9o5XOGR5726lTOctpF++661p9G5DzLINZeD2rdEx4L3/y9FhGMyp7AUtHetn+Y8sOGijTiVtjxxeu3E=
+  bucket: bin.begriffs.com
+  region: us-west-1
+  local-dir: ".cabal-sandbox"
+  upload-dir: dbapi
+  acl: !ruby/string:HighLine::String public_read
+  on:
+    repo: begriffs/dbapi
+    branch: ci-cache
