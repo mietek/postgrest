@@ -20,3 +20,6 @@ install:
 script:
   - cabal test --show-details=always --test-options="--color"
   - .cabal-sandbox/bin/hlint src/*.hs test/**/*.hs
+cache:
+  directories:
+    - .cabal-sandbox
