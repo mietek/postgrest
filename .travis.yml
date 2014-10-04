@@ -23,6 +23,7 @@ deploy:
     secure: DDffOBLuodY/06wPsXOWp/RZevcqe7HVpaGS4NjoPfKEbl46G1Bvz74NlA9YmfdyQytMgBkiK33maxX7EYLizRMkPT3E9o5XOGR5726lTOctpF++661p9G5DzLINZeD2rdEx4L3/y9FhGMyp7AUtHetn+Y8sOGijTiVtjxxeu3E=
   bucket: bin.begriffs.com
   region: us-west-1
+  skip_cleanup: true
   local-dir: ".cabal-sandbox"
   upload-dir: dbapi
   acl: !ruby/string:HighLine::String public_read
