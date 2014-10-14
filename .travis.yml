@@ -32,4 +32,4 @@ deploy:
   acl: !ruby/string:HighLine::String public_read
   on:
     repo: begriffs/dbapi
-    branch: ci-cache
+    branch: ci-create-cache
