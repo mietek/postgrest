@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+source "${HALCYON_DIR}/src.sh"
+
+
+pre_install_hook () {
+	local tag source_dir install_dir data_dir
+	expect_args tag source_dir install_dir data_dir -- "$@"
+
+	local prefix
+	prefix=$( get_tag_prefix "${tag}" ) || return 1
+
+	mv "${install_dir}${prefix}/bin/postgrest" \
+		"${install_dir}${prefix}/bin/postgrest.original" || return 1
+
+	copy_file "${source_dir}/.halcyon/pre-install/postgrest" \
+		"${install_dir}${prefix}/bin/postgrest" || return 1
+}
+
+
+pre_install_hook "$@"

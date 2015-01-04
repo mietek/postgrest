@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+
+halcyon_postgrest () {
+	local -a opts_a
+	opts_a=()
+	[[ -n "${DB_NAME:+_}" ]] && opts_a+=( --db-name "${DB_NAME}" )
+	[[ -n "${DB_AUTH_ROLE:+_}" ]] && opts_a+=( --db-user "${DB_AUTH_ROLE}" )
+	[[ -n "${DB_AUTH_PASS:+_}" ]] && opts_a+=( --db-pass "${DB_AUTH_PASS}" )
+	[[ -n "${DB_ANON_ROLE:+_}" ]] && opts_a+=( --anonymous "${DB_ANON_ROLE}" )
+	[[ -n "${DB_HOST:+_}" ]] && opts_a+=( --db-host "${DB_HOST}" )
+	[[ -n "${DB_PORT:+_}" ]] && opts_a+=( --db-port "${DB_PORT}" )
+	[[ -n "${DB_POOL_SIZE:+_}" ]] && opts_a+=( --db-pool "${DB_POOL_SIZE}" )
+	(( ${DB_SECURE:-0} )) && opts_a+=( --secure )
+
+	postgrest.original -p "${PORT:-8080}" "${opts_a[@]}" "$@" || return 1
+}
+
+
+halcyon_postgrest "$@"
